@@ -3,6 +3,11 @@ name: Coding Tools Cloud Sandbox
 on:
   workflow_dispatch:
     inputs:
+      auth_token:
+        description: "Custom MCP Bearer Token (at least 16 chars)"
+        required: false
+        default: "siriussnow-mcp-token-2026"
+        type: string
       duration_minutes:
         description: "Duration in minutes (5 - 330)"
         required: false
@@ -29,5 +34,6 @@ jobs:
       permission_mode: ${{ inputs.permission_mode || 'trusted' }}
       checkout_repository: true
       duration_minutes: ${{ inputs.duration_minutes || '120' }}
+      auth_token: ${{ inputs.auth_token || 'siriussnow-mcp-token-2026' }}
       tunnel_type: quick
       hide_auth_token: false
