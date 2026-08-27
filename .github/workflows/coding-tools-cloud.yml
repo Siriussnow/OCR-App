@@ -1,0 +1,33 @@
+name: Coding Tools Cloud Sandbox
+
+on:
+  workflow_dispatch:
+    inputs:
+      duration_minutes:
+        description: "Duration in minutes (5 - 330)"
+        required: false
+        default: "120"
+        type: string
+      permission_mode:
+        description: "Permission mode (trusted / safe / dangerous)"
+        required: false
+        default: "trusted"
+        type: choice
+        options:
+          - trusted
+          - safe
+          - dangerous
+
+jobs:
+  sandbox:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: xyTom/coding-tools-mcp/.github/workflows/start-sandbox.yml@main
+    with:
+      image: ghcr.io/xytom/coding-tools-mcp-sandbox:latest
+      permission_mode: ${{ inputs.permission_mode || 'trusted' }}
+      checkout_repository: true
+      duration_minutes: ${{ inputs.duration_minutes || '120' }}
+      tunnel_type: quick
+      hide_auth_token: false
